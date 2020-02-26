@@ -90,6 +90,11 @@ class App extends React.Component {
   setTreeRef = (tree) => {
     this.tree = tree;
   };
+  onDoubleClick = (event, node) => {
+    console.log('double click')
+    const internalTree = this.tree
+    internalTree.onNodeExpand(event, node)
+  }
   render() {
     const customLabel = (
       <span className="cus-label">
@@ -120,10 +125,13 @@ class App extends React.Component {
           onDrop={info => console.log(info)}
           defaultSelectedKeys={this.state.defaultSelectedKeys}
           defaultCheckedKeys={this.state.defaultCheckedKeys}
-          onSelect={this.onSelect}
-          onCheck={this.onCheck}
+          // onSelect={this.onSelect}
+          // onCheck={this.onCheck}
           treeData={[root.model]}
+          onDoubleClick={this.onDoubleClick}
+          ref={this.setTreeRef}
         />
+        <button>Add</button>
       </div>
     );
   }
