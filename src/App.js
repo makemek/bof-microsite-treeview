@@ -114,7 +114,8 @@ class App extends React.Component {
           // checkable
           selectable={ true }
           draggable
-          defaultExpandAll
+          // defaultExpandAll
+          defaultExpandedKeys={[out.name]}
           onExpand={this.onExpand}
           onDrop={info => console.log(info)}
           defaultSelectedKeys={this.state.defaultSelectedKeys}
