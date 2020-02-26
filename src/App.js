@@ -7,7 +7,7 @@ import 'rc-tree/assets/index.css';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import TreeModel from 'tree-model'
-import { uniqueId } from 'lodash'
+import { uniqueId, last, defaultTo } from 'lodash'
 
 const treeData =
   { key: '0-0', title: 'parent 1', x:1, y:2, children:
@@ -111,6 +111,22 @@ class App extends React.Component {
     node.drop()
     this.setState({ treeData: this.root.model })
   }
+  onDrop = ({ node, dragNodesKeys, dropToGap, dropPosition, ...rest }) => {
+    const sourceKey = last(dragNodesKeys)
+    const { name: destinationKey } = node.props
+    const sourceNode = this.root.first(({ model }) => model.key === sourceKey)
+    const destinationNode = this.root.first(({ model }) => model.key === destinationKey)
+    const sourceNodeClone = new TreeModel().parse(sourceNode.model)
+    if(dropToGap) {
+      const parent = defaultTo(destinationNode.parent, this.root)
+      parent.addChildAtIndex(sourceNodeClone, dropPosition)
+    }
+    else {
+      destinationNode.addChild(sourceNodeClone)
+    }
+    sourceNode.drop()
+    this.setState({ treeData: this.root.model })
+  }
   render() {
     const customLabel = (
       <span className="cus-label">
@@ -123,7 +139,7 @@ class App extends React.Component {
         <span style={{ color: '#EB0000' }} onClick={this.onDel}>Delete</span>
       </span>
     );
-    console.log(this.root.model)
+
     return (
       <div style={{ margin: '0 20px' }}>
 
@@ -138,7 +154,7 @@ class App extends React.Component {
           // defaultExpandAll
           defaultExpandedKeys={[out.name]}
           onExpand={this.onExpand}
-          onDrop={info => console.log(info)}
+          onDrop={this.onDrop}
           defaultSelectedKeys={this.state.defaultSelectedKeys}
           defaultCheckedKeys={this.state.defaultCheckedKeys}
           onSelect={this.onSelect}
