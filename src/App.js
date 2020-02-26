@@ -28,7 +28,7 @@ const treeData =
 
 const tree = new TreeModel({ childrenPropertyName: 'childs'})
 const root = tree.parse(out)
-root.walk(node => {
+root.walk(function rcTreeModelCompatible(node) {
   const {
     name,
     label: { en },
