@@ -102,6 +102,15 @@ class App extends React.Component {
     node.addChild(new TreeModel().parse({key: name, title: name, children: []}))
     this.setState({ treeData: this.root.model })
   }
+  onRemove = () => {
+    const [selectedKey] = this.tree.state.selectedKeys
+    if(!selectedKey) {
+      return
+    }
+    const node = this.root.first(({ model }) => model.key === selectedKey)
+    node.drop()
+    this.setState({ treeData: this.root.model })
+  }
   render() {
     const customLabel = (
       <span className="cus-label">
@@ -115,7 +124,6 @@ class App extends React.Component {
       </span>
     );
     console.log(this.root.model)
-    console.log(this.state.treeData)
     return (
       <div style={{ margin: '0 20px' }}>
 
@@ -140,6 +148,7 @@ class App extends React.Component {
           ref={this.setTreeRef}
         />
         <button onClick={this.onAdd}>Add</button>
+        <button onClick={this.onRemove}>Remove</button>
       </div>
     );
   }
