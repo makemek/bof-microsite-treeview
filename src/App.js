@@ -26,22 +26,6 @@ const treeData =
     ],
   }
 
-const tree = new TreeModel({ childrenPropertyName: 'childs'})
-let root = tree.parse(out)
-root.walk(function rcTreeModelCompatible(node) {
-  const {
-    name,
-    label: { en },
-    childs,
-  } = node.model
-
-  node.model.key = name
-  node.model.title = en
-  node.model.children = childs
-  node.model.childs = null
-})
-root = new TreeModel().parse(root.model)
-
 class App extends React.Component {
   static propTypes = {
     keys: PropTypes.array,
@@ -49,11 +33,27 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     const keys = props.keys;
+    const tree = new TreeModel({ childrenPropertyName: 'childs'})
+    const root = tree.parse(out)
+    root.walk(function rcTreeModelCompatible(node) {
+      const {
+        name,
+        label: { en },
+        childs,
+      } = node.model
+
+      node.model.key = name
+      node.model.title = en
+      node.model.children = childs
+      node.model.childs = null
+    })
+    this.root = new TreeModel().parse(root.model)
+
     this.state = {
       defaultExpandedKeys: keys,
       defaultSelectedKeys: keys,
       defaultCheckedKeys: keys,
-      update: false,
+      treeData: root.model,
     };
   }
   onExpand = (...args) => {
@@ -92,18 +92,15 @@ class App extends React.Component {
     const internalTree = this.tree
     internalTree.onNodeExpand(event, node)
   }
-  triggerUpdate = () => {
-    this.setState({ update: !this.state.update })
-  }
   onAdd = () => {
     const [selectedKey] = this.tree.state.selectedKeys
     if(!selectedKey) {
       return
     }
-    const node = root.first(({ model }) => model.key === selectedKey)
+    const node = this.root.first(({ model }) => model.key === selectedKey)
     const name = `foo${uniqueId()}`
     node.addChild(new TreeModel().parse({key: name, title: name, children: []}))
-    this.triggerUpdate()
+    this.setState({ treeData: this.root.model })
   }
   render() {
     const customLabel = (
@@ -117,7 +114,8 @@ class App extends React.Component {
         <span style={{ color: '#EB0000' }} onClick={this.onDel}>Delete</span>
       </span>
     );
-    console.log(root.model)
+    console.log(this.root.model)
+    console.log(this.state.treeData)
     return (
       <div style={{ margin: '0 20px' }}>
 
@@ -137,7 +135,7 @@ class App extends React.Component {
           defaultCheckedKeys={this.state.defaultCheckedKeys}
           onSelect={this.onSelect}
           // onCheck={this.onCheck}
-          treeData={[root.model]}
+          treeData={[this.state.treeData]}
           onDoubleClick={this.onDoubleClick}
           ref={this.setTreeRef}
         />
