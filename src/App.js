@@ -7,7 +7,7 @@ import 'rc-tree/assets/index.css';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import TreeModel from 'tree-model'
-
+import { uniqueId } from 'lodash'
 
 const treeData =
   { key: '0-0', title: 'parent 1', x:1, y:2, children:
@@ -27,7 +27,7 @@ const treeData =
   }
 
 const tree = new TreeModel({ childrenPropertyName: 'childs'})
-const root = tree.parse(out)
+let root = tree.parse(out)
 root.walk(function rcTreeModelCompatible(node) {
   const {
     name,
@@ -40,15 +40,11 @@ root.walk(function rcTreeModelCompatible(node) {
   node.model.children = childs
   node.model.childs = null
 })
-
-console.log(root.model)
+root = new TreeModel().parse(root.model)
 
 class App extends React.Component {
   static propTypes = {
     keys: PropTypes.array,
-  };
-  static defaultProps = {
-    keys: ['0-0-0-0'],
   };
   constructor(props) {
     super(props);
@@ -57,6 +53,7 @@ class App extends React.Component {
       defaultExpandedKeys: keys,
       defaultSelectedKeys: keys,
       defaultCheckedKeys: keys,
+      update: false,
     };
   }
   onExpand = (...args) => {
@@ -95,6 +92,19 @@ class App extends React.Component {
     const internalTree = this.tree
     internalTree.onNodeExpand(event, node)
   }
+  triggerUpdate = () => {
+    this.setState({ update: !this.state.update })
+  }
+  onAdd = () => {
+    const [selectedKey] = this.tree.state.selectedKeys
+    if(!selectedKey) {
+      return
+    }
+    const node = root.first(({ model }) => model.key === selectedKey)
+    const name = `foo${uniqueId()}`
+    node.addChild(new TreeModel().parse({key: name, title: name, children: []}))
+    this.triggerUpdate()
+  }
   render() {
     const customLabel = (
       <span className="cus-label">
@@ -107,7 +117,7 @@ class App extends React.Component {
         <span style={{ color: '#EB0000' }} onClick={this.onDel}>Delete</span>
       </span>
     );
-
+    console.log(root.model)
     return (
       <div style={{ margin: '0 20px' }}>
 
@@ -125,13 +135,13 @@ class App extends React.Component {
           onDrop={info => console.log(info)}
           defaultSelectedKeys={this.state.defaultSelectedKeys}
           defaultCheckedKeys={this.state.defaultCheckedKeys}
-          // onSelect={this.onSelect}
+          onSelect={this.onSelect}
           // onCheck={this.onCheck}
           treeData={[root.model]}
           onDoubleClick={this.onDoubleClick}
           ref={this.setTreeRef}
         />
-        <button>Add</button>
+        <button onClick={this.onAdd}>Add</button>
       </div>
     );
   }
