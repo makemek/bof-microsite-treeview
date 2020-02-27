@@ -117,9 +117,10 @@ class App extends React.Component {
     const sourceNode = this.root.first(({ model }) => model.key === sourceKey)
     const destinationNode = this.root.first(({ model }) => model.key === destinationKey)
     const sourceNodeClone = new TreeModel().parse(sourceNode.model)
+    const dropPositionNormalized = dropPosition < 0 ? 0: dropPosition
     if(dropToGap) {
       const parent = defaultTo(destinationNode.parent, this.root)
-      parent.addChildAtIndex(sourceNodeClone, dropPosition)
+      parent.addChildAtIndex(sourceNodeClone, dropPositionNormalized)
     }
     else {
       destinationNode.addChild(sourceNodeClone)
