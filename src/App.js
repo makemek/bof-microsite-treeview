@@ -77,6 +77,7 @@ class App extends React.Component {
       return
     }
     const node = this.root.first(({ model }) => model.key === selectedKey)
+    this.tree.setState({ selectedKeys: [] })
     node.drop()
     this.setState({ treeData: this.root.model })
   }
