@@ -127,6 +127,32 @@ class App extends React.Component {
     sourceNode.drop()
     this.setState({ treeData: this.root.model })
   }
+  onGoUp = () => {
+    const [selectedKey] = this.tree.state.selectedKeys
+    if(!selectedKey) {
+      return
+    }
+    const node = this.root.first(({ model }) => model.key === selectedKey)
+    const newIndex = node.getIndex() - 1
+    if(newIndex < 0) {
+      return
+    }
+    node.setIndex(newIndex)
+    this.setState({ treeData: this.root.model })
+  }
+  onGoDown = () => {
+    const [selectedKey] = this.tree.state.selectedKeys
+    if(!selectedKey) {
+      return
+    }
+    const node = this.root.first(({ model }) => model.key === selectedKey)
+    const newIndex = node.getIndex() + 1
+    if(newIndex >= node.parent.model.children.length) {
+      return
+    }
+    node.setIndex(newIndex)
+    this.setState({ treeData: this.root.model })
+  }
   render() {
     const customLabel = (
       <span className="cus-label">
@@ -165,6 +191,8 @@ class App extends React.Component {
         />
         <button onClick={this.onAdd}>Add</button>
         <button onClick={this.onRemove}>Remove</button>
+        <button onClick={this.onGoUp}>Up</button>
+        <button onClick={this.onGoDown}>Down</button>
       </div>
     );
   }
