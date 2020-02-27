@@ -2,29 +2,12 @@ import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import out from './out.json'
-import Tree, { TreeNode } from 'rc-tree';
+import Tree from 'rc-tree';
 import 'rc-tree/assets/index.css';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import TreeModel from 'tree-model'
 import { uniqueId, last, defaultTo } from 'lodash'
-
-const treeData =
-  { key: '0-0', title: 'parent 1', x:1, y:2, children:
-    [
-      { key: '0-0-0', title: 'parent 1-1', children:
-        [
-          { key: '0-0-0-0', title: 'parent 1-1-0' },
-        ],
-      },
-      { key: '0-0-1', title: 'parent 1-2', children:
-          [
-            { key: '0-0-1-0', title: 'parent 1-2-0', disableCheckbox: true },
-            { key: '0-0-1-1', title: 'parent 1-2-1' },
-          ],
-      },
-    ],
-  }
 
 class App extends React.Component {
   static propTypes = {
@@ -69,20 +52,6 @@ class App extends React.Component {
         selectedKeys.map(key => ReactDOM.findDOMNode(this.tree.domTreeNodes[key])),
       );
     }
-  };
-  onCheck = (checkedKeys, info) => {
-    console.log('onCheck', checkedKeys, info);
-  };
-  onEdit = () => {
-    setTimeout(() => {
-      console.log('current key: ', this.selKey);
-    }, 0);
-  };
-  onDel = (e) => {
-    if (!window.confirm('sure to delete?')) {
-      return;
-    }
-    e.stopPropagation();
   };
   setTreeRef = (tree) => {
     this.tree = tree;
@@ -155,22 +124,8 @@ class App extends React.Component {
     this.setState({ treeData: this.root.model })
   }
   render() {
-    const customLabel = (
-      <span className="cus-label">
-        <span>operations: </span>
-        <span style={{ color: 'blue' }} onClick={this.onEdit}>Edit</span>&nbsp;
-        <label onClick={(e) => e.stopPropagation()}>
-          <input type="checkbox" /> checked
-        </label>
-        &nbsp;
-        <span style={{ color: '#EB0000' }} onClick={this.onDel}>Delete</span>
-      </span>
-    );
-
     return (
       <div style={{ margin: '0 20px' }}>
-
-
         <h2>Check on Click TreeNode</h2>
         <Tree
           className="myCls"
@@ -198,28 +153,5 @@ class App extends React.Component {
     );
   }
 }
-
-
-// function App() {
-//   console.log(out)
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 
 export default App;
