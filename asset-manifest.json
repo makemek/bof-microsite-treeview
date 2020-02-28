@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/makemek/bof-microsite-treeview/static/css/main.d1b05096.chunk.css",
+    "main.js": "/makemek/bof-microsite-treeview/static/js/main.1ee922d3.chunk.js",
+    "main.js.map": "/makemek/bof-microsite-treeview/static/js/main.1ee922d3.chunk.js.map",
+    "runtime-main.js": "/makemek/bof-microsite-treeview/static/js/runtime-main.db2fb66a.js",
+    "runtime-main.js.map": "/makemek/bof-microsite-treeview/static/js/runtime-main.db2fb66a.js.map",
+    "static/css/2.29bf60af.chunk.css": "/makemek/bof-microsite-treeview/static/css/2.29bf60af.chunk.css",
+    "static/js/2.cd8c2e8c.chunk.js": "/makemek/bof-microsite-treeview/static/js/2.cd8c2e8c.chunk.js",
+    "static/js/2.cd8c2e8c.chunk.js.map": "/makemek/bof-microsite-treeview/static/js/2.cd8c2e8c.chunk.js.map",
+    "index.html": "/makemek/bof-microsite-treeview/index.html",
+    "precache-manifest.e172c6231ad4ea5b114ecc047ac824a6.js": "/makemek/bof-microsite-treeview/precache-manifest.e172c6231ad4ea5b114ecc047ac824a6.js",
+    "service-worker.js": "/makemek/bof-microsite-treeview/service-worker.js",
+    "static/css/2.29bf60af.chunk.css.map": "/makemek/bof-microsite-treeview/static/css/2.29bf60af.chunk.css.map",
+    "static/css/main.d1b05096.chunk.css.map": "/makemek/bof-microsite-treeview/static/css/main.d1b05096.chunk.css.map",
+    "static/js/2.cd8c2e8c.chunk.js.LICENSE.txt": "/makemek/bof-microsite-treeview/static/js/2.cd8c2e8c.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.db2fb66a.js",
+    "static/css/2.29bf60af.chunk.css",
+    "static/js/2.cd8c2e8c.chunk.js",
+    "static/css/main.d1b05096.chunk.css",
+    "static/js/main.1ee922d3.chunk.js"
+  ]
+}
