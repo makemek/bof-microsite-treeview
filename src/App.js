@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import out from './out.json'
 import Tree from 'rc-tree';
+import styled from 'styled-components'
 import 'rc-tree/assets/index.css';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -127,14 +128,12 @@ class App extends React.Component {
   render() {
     return (
       <div style={{ margin: '0 20px' }}>
-        <h2>Check on Click TreeNode</h2>
-        <Tree
-          className="myCls"
+        <h2>TreeNode</h2>
+        <TreeStyled
           showLine
           // checkable
           selectable={ true }
           draggable
-          showIcon={false}
           // defaultExpandAll
           defaultExpandedKeys={[out.name]}
           onExpand={this.onExpand}
@@ -155,5 +154,19 @@ class App extends React.Component {
     );
   }
 }
+
+const TreeStyled = styled(Tree)`
+  /* button size */
+  li[role="treeitem"], .rc-tree-title {
+    padding: 5px 0;
+  }
+  .rc-tree-node-selected, .rc-tree-node-content-wrapper:hover {
+    background-color: lightblue;
+    border: none;
+  }
+  .rc-tree-node-selected {
+    font-weight: bolder;
+  }
+`
 
 export default App;
